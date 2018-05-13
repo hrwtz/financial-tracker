@@ -1,0 +1,18 @@
+<mat-menu #menu="matMenu">
+	<button mat-menu-item>
+		Home
+	</button>
+	<button mat-menu-item>
+		Budgets
+	</button>
+	<button mat-menu-item>
+		Transactions
+	</button>
+	<button mat-menu-item>
+		Refresh Data
+	</button>
+</mat-menu>
+
+<button mat-button [matMenuTriggerFor]="menu">
+	<mat-icon>menu</mat-icon>
+</button>

@@ -4,5 +4,5 @@ export interface ManualData {
 			date: Date,
 			value: number
 		}[]
-	}
+	};
 }

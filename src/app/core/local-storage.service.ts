@@ -17,7 +17,7 @@ export class LocalStorageService {
 		} catch (error) {
 			dataObject = rawData;
 		}
-		return this.convertDateStringsToDates(dataObject)
+		return this.convertDateStringsToDates(dataObject);
 	}
 
 	/*
@@ -41,11 +41,11 @@ export class LocalStorageService {
 			return input;
 		}
 
-		for (let key in input) {
+		for (const key in input) {
 			if (!input.hasOwnProperty(key)) {
 				continue;
 			} else if (this.updateStringToDate(input[key])) {
-				input[key] = this.updateStringToDate(input[key])
+				input[key] = this.updateStringToDate(input[key]);
 			} else if (typeof input[key] === 'object') {
 				this.convertDateStringsToDates(input[key]);
 			}
@@ -65,7 +65,7 @@ export class LocalStorageService {
 				match = value.match(regexIso8601);
 
 			if (match) {
-				const milliseconds = Date.parse(match[0])
+				const milliseconds = Date.parse(match[0]);
 
 				if (!isNaN(milliseconds)) {
 					return new Date(milliseconds);

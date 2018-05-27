@@ -1,2 +1,3 @@
+<mat-progress-bar mode="indeterminate" *ngIf="progress"></mat-progress-bar>
 <app-menu></app-menu>
-<router-outlet></router-outlet>
+<router-outlet [hidden]="!loaded"></router-outlet>

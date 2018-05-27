@@ -1,0 +1,8 @@
+<div class="home">
+	<chart
+		*ngFor="let options of chartOptions; let index = index"
+		[options]="options"
+		(load)="saveInstance($event.context, index)"
+		class="home__chart">
+	</chart>
+</div>

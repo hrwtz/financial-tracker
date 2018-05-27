@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 
-import { SheetFetcherService } from '../../core/sheet-fetcher.service'
+import { SheetFetcherService } from '../../core/sheet-fetcher.service';
 
 @Component({
 	selector: 'app-menu',

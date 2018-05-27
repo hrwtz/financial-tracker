@@ -1,4 +1,4 @@
-import { Observable } from 'rxjs/Observable';
+import { ReplaySubject } from 'rxjs/ReplaySubject';
 
 export interface Sheet {
 	name: string;
@@ -7,10 +7,10 @@ export interface Sheet {
 }
 
 export interface SheetResponse {
-	[key: string]: any,
-	values: string[][]
+	[key: string]: any;
+	values: string[][];
 }
 
-export interface SheetPromises {
-	string?: Observable<any>
+export interface SheetSubjects {
+	string?: ReplaySubject<boolean>;
 }

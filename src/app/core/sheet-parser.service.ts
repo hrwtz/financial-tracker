@@ -62,7 +62,7 @@ export class SheetParserService {
 					category.children = [];
 					categoryList.push(category);
 				} else if (currentCategory) {
-					categoryList[categoryList.length - 1].children.push(category)
+					categoryList[categoryList.length - 1].children.push(category);
 				}
 			});
 		}
@@ -99,7 +99,7 @@ export class SheetParserService {
 				manualData[currentSectionCamelCase][this.toCamelCase(row[0])] = [];
 				// For each cell with dollar values
 				row.slice(1).forEach((cell, k) => {
-					const parsedNumber = Number(cell.replace(/[^-0-9\.]+/g,"")),
+					const parsedNumber = Number(cell.replace(/[^-0-9\.]+/g, '')),
 						parsedDate = new Date(dates[k]);
 
 					manualData[currentSectionCamelCase][this.toCamelCase(row[0])].push({
@@ -113,7 +113,7 @@ export class SheetParserService {
 						manualData[currentSectionCamelCase].all[k] = {
 							date: parsedDate,
 							value: 0
-						}
+						};
 					}
 					manualData[currentSectionCamelCase].all[k].value += parsedNumber;
 				});
@@ -133,7 +133,7 @@ export class SheetParserService {
 		str = str || '';
 
 		return str.replace(/(?:^\w|[A-Z]|\b\w)/g, (letter, index) =>
-			index == 0 ? letter.toLowerCase() : letter.toUpperCase()
+			index === 0 ? letter.toLowerCase() : letter.toUpperCase()
 		).replace(/\s+/g, '');
 	}
 }

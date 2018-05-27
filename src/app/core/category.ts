@@ -4,5 +4,5 @@ export interface Category {
 }
 
 export interface Categories {
-	[key: string]: Category[]
+	[key: string]: Category[];
 }

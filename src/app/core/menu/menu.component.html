@@ -1,11 +1,11 @@
 <mat-menu #menu="matMenu">
-	<button mat-menu-item>
+	<button mat-menu-item routerLink="/">
 		Home
 	</button>
 	<button mat-menu-item>
 		Budgets
 	</button>
-	<button mat-menu-item>
+	<button mat-menu-item routerLink="/transactions">
 		Transactions
 	</button>
 	<button mat-menu-item (click)="refreshData()">

@@ -1,4 +1,15 @@
-<div class="transactions">
+<mat-card class="transactions">
+
+	<mat-card-title class="transactions__title">
+		<span>Transactions</span>
+		<span style="flex: 1 1 auto;"></span>
+		<button mat-button>
+			<mat-icon (click)="showFilterDialog()">filter_list</mat-icon>
+		</button>
+	</mat-card-title>
+
+	<app-filter-chips [filters]="filters" (change)="chipChange()"></app-filter-chips>
+
 	<table mat-table [dataSource]="dataSource" class="transactions__table" matSort>
 		<ng-container matColumnDef="date">
 			<th mat-header-cell mat-sort-header *matHeaderCellDef>Date</th>
@@ -23,5 +34,7 @@
 		<tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
 		<tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
 	</table>
+
 	<mat-paginator [pageSizeOptions]="[20, 50, 100]" showFirstLastButtons></mat-paginator>
-</div>
+
+</mat-card>

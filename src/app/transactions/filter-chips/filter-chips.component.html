@@ -1,0 +1,23 @@
+<mat-chip-list>
+	<mat-chip *ngFor="let filter of filters" (removed)="removeFilter(filter)">
+		<div>
+			<span *ngIf="filter.operator === 'eq' || filter.operator === 'contains'">
+				{{ filter.field | sentencecase | titlecase }}:
+			</span>
+			<span *ngIf="filter.operator === 'lte'">
+				<span *ngIf="filter.field === 'date'">Before: </span>
+				<span *ngIf="filter.field !== 'date'">Below: </span>
+			</span>
+			<span *ngIf="filter.operator === 'gte'">
+				<span *ngIf="filter.field === 'date'">After: </span>
+				<span *ngIf="filter.field !== 'date'">Above: </span>
+			</span>
+			<strong>
+				<span *ngIf="filter.field === 'date'">{{ filter.value | date : 'shortDate' }}</span>
+				<span *ngIf="filter.field === 'amount'">{{ filter.value | currency: "$" : 'symbol' : '1.0-0' }}</span>
+				<span *ngIf="filter.field !== 'amount' && filter.field !== 'date'">{{ filter.value | titlecase }}</span>
+			</strong>
+		</div>
+		<mat-icon matChipRemove>cancel</mat-icon>
+	</mat-chip>
+</mat-chip-list>

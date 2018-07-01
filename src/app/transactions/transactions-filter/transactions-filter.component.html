@@ -1,0 +1,123 @@
+<div class="transactions-filter">
+	<h1 mat-dialog-title>Filter Transactions</h1>
+	<mat-dialog-content>
+		<form [formGroup]="form">
+			<div class="transactions-filter__split-group" formGroupName="dateGroup">
+				<mat-form-field class="transactions-filter__split-field">
+					<input matInput
+						[matDatepicker]="dateGte"
+						placeholder="From"
+						[(ngModel)]="values.date.gte"
+						formControlName="dateGte"
+						[max]="today"
+						[errorStateMatcher]="compareControlsStateMatcher">
+					<mat-datepicker-toggle matSuffix [for]="dateGte"></mat-datepicker-toggle>
+					<mat-datepicker #dateGte></mat-datepicker>
+
+					<mat-error *ngIf="!form.controls.dateGroup.hasError('compareControls') && form.controls.dateGroup.controls.dateGte.hasError('maxDate')">
+						From Date cannot be in the future
+					</mat-error>
+					<mat-error *ngIf="form.controls.dateGroup.hasError('compareControls')">
+						From Date must be before the To Date
+					</mat-error>
+				</mat-form-field>
+
+				<mat-form-field class="transactions-filter__split-field">
+					<input matInput
+					[matDatepicker]="dateLte"
+					placeholder="To"
+					[(ngModel)]="values.date.lte"
+					formControlName="dateLte"
+					[max]="today"
+					[errorStateMatcher]="compareControlsStateMatcher">
+					<mat-datepicker-toggle matSuffix [for]="dateLte"></mat-datepicker-toggle>
+					<mat-datepicker #dateLte></mat-datepicker>
+					<mat-error *ngIf="!form.controls.dateGroup.hasError('compareControls') && form.controls.dateGroup.controls.dateLte.hasError('maxDate')">
+						To Date cannot be in the future
+					</mat-error>
+				</mat-form-field>
+			</div>
+
+			<mat-form-field class="transactions-filter__full-field">
+				<input matInput
+					placeholder="Description"
+					[(ngModel)]="values.description.contains"
+					formControlName="description">
+			</mat-form-field>
+
+			<mat-form-field class="transactions-filter__full-field">
+				<mat-select placeholder="Type"
+					[(ngModel)]="values.categoryType.eq"
+					formControlName="categoryType">
+					<mat-option 
+						*ngFor="let categoryType of categoryTypes"
+						[value]="categoryType !== 'all' ? categoryType : ''">
+						{{ categoryType | titlecase }}
+					</mat-option>
+				</mat-select>
+			</mat-form-field>
+
+			<mat-form-field class="transactions-filter__full-field">
+				<mat-select placeholder="Category"
+					[(ngModel)]="values.category.eq"
+					formControlName="category">
+					<mat-option [value]="''"><em>None</em></mat-option>
+					<div *ngFor="let categoryType of objectKeys(categories)">
+						<div *ngIf="values.categoryType.eq === categoryType || !values.categoryType.eq">
+							<div *ngFor="let category of categories[categoryType]">
+								<mat-option [value]="category.name">
+									{{category.name}}
+								</mat-option>
+								<mat-option [value]="child.name" *ngFor="let child of category.children" class="transactions-filter__child-option">
+									{{child.name}}
+								</mat-option>
+							</div>
+						</div>
+					</div>
+				</mat-select>
+			</mat-form-field>
+
+			<div class="transactions-filter__split-group" formGroupName="amountGroup">
+				<mat-form-field class="transactions-filter__split-field">
+					<input matInput
+						type="number"
+						placeholder="Min Amount"
+						min="0"
+						step="1"
+						[(ngModel)]="values.amount.gte"
+						formControlName="amountGte"
+						[errorStateMatcher]="compareControlsStateMatcher">
+					<mat-error *ngIf="!form.controls.amountGroup.hasError('compareControls') && form.controls.amountGroup.controls.amountGte.hasError('min')">
+						Min Amount must be positive
+					</mat-error>
+					<mat-error *ngIf="form.controls.amountGroup.hasError('compareControls')">
+						Min Amount must be more than the Max Amount
+					</mat-error>
+				</mat-form-field>
+
+				<mat-form-field class="transactions-filter__split-field">
+					<input matInput
+						type="number"
+						placeholder="Max Amount"
+						min="0"
+						step="1"
+						[(ngModel)]="values.amount.lte"
+						formControlName="amountLte"
+						[errorStateMatcher]="compareControlsStateMatcher">
+					<mat-error *ngIf="!form.controls.amountGroup.hasError('compareControls') && form.controls.amountGroup.controls.amountLte.hasError('min')">
+						Max Amount must be positive
+					</mat-error>
+				</mat-form-field>
+			</div>
+		</form>
+	</mat-dialog-content>
+
+	<mat-dialog-actions class="transactions-filter__dialog_actions">
+		<button mat-button type="button" mat-dialog-close>
+			Cancel
+		</button>
+		<button mat-button type="submit" [disabled]="form.invalid" (click)="submit()">
+			Filter
+		</button>
+	</mat-dialog-actions>
+</div>

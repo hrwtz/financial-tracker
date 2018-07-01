@@ -4,25 +4,25 @@ import { Observable } from 'rxjs/Observable';
 import { ReplaySubject } from 'rxjs/ReplaySubject';
 import 'rxjs/add/observable/forkJoin';
 import 'rxjs/add/observable/zip';
-import 'rxjs/add/operator/do';
 import 'rxjs/add/operator/map';
+import * as startOfMonth from 'date-fns/start_of_month';
 
 import { environment } from '../../environments/environment';
-import { Sheet, SheetResponse, SheetSubjects } from './sheet';
+import { Sheet, SheetResponse, SheetSubjects } from './models/sheet.model';
 import { LocalStorageService } from './local-storage.service';
 import { SheetParserService } from './sheet-parser.service';
 
 @Injectable()
 export class SheetFetcherService {
 	private sheets: Sheet[] = [{
-		name: 'Transactions',
-		id: 'transactions',
-		parser: this.sheetParserService.parseTransactions.bind(this.sheetParserService)
-	},
-	{
 		name: 'Categories',
 		id: 'categories',
 		parser: this.sheetParserService.parseCategories.bind(this.sheetParserService)
+	},
+	{
+		name: 'Transactions',
+		id: 'transactions',
+		parser: this.sheetParserService.parseTransactions.bind(this.sheetParserService)
 	},
 	{
 		name: 'Manual Data',
@@ -47,11 +47,9 @@ export class SheetFetcherService {
 	 * each of the sheet subjects.
 	 */
 	fetchSheets(forceRefresh?: boolean): void {
-		const lastFetched = new Date(this.localStorageService.get('last-fetched')),
-			today = new Date(),
-			firstOfMonth = new Date(today.getFullYear(), today.getMonth(), 1);
+		const lastFetched = new Date(this.localStorageService.get('last-fetched'));
 
-		if (lastFetched === null || lastFetched < firstOfMonth || forceRefresh) {
+		if (lastFetched === null || lastFetched < startOfMonth(new Date()) || forceRefresh) {
 			this.fetchAndStoreSheets();
 		} else {
 			this.sheets.forEach(sheet => {
@@ -88,21 +86,18 @@ export class SheetFetcherService {
 
 			const url = 'https://sheets.googleapis.com/v4/spreadsheets/' + environment.spreadsheetId + '/values/' + sheet.name + '?key=' + environment.apiKey;
 
-			((sheetSafe) => {
-				httpObservables.push(
-					this.http.get(url)
-						.do((response: SheetResponse) => {
-							const parsedData = sheetSafe.parser(response.values);
-
-							this.localStorageService.set(sheetSafe.id, parsedData);
-							this.subjects[sheetSafe.id].next(true);
-						})
-				);
-			})(sheet);
+			httpObservables.push(this.http.get(url));
 		});
 
 		Observable.forkJoin(httpObservables)
-			.subscribe((response) => {
+			.subscribe((responses: SheetResponse[]): void => {
+				responses.forEach((response, index): void => {
+					const parsedData = this.sheets[index].parser(response.values);
+
+					this.localStorageService.set(this.sheets[index].id, parsedData);
+					this.subjects[this.sheets[index].id].next(true);
+				});
+
 				this.localStorageService.set('last-fetched', new Date().toString());
 			});
 	}

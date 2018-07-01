@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import forOwn from 'lodash/forOwn';
 
 @Injectable()
 export class LocalStorageService {
@@ -41,15 +42,13 @@ export class LocalStorageService {
 			return input;
 		}
 
-		for (const key in input) {
-			if (!input.hasOwnProperty(key)) {
-				continue;
-			} else if (this.updateStringToDate(input[key])) {
-				input[key] = this.updateStringToDate(input[key]);
-			} else if (typeof input[key] === 'object') {
-				this.convertDateStringsToDates(input[key]);
+		forOwn(input, value => {
+			if (this.updateStringToDate(value)) {
+				value = this.updateStringToDate(value);
+			} else if (typeof value === 'object') {
+				this.convertDateStringsToDates(value);
 			}
-		}
+		});
 		return input;
 	}
 

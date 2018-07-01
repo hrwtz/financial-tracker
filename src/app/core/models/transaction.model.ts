@@ -8,4 +8,6 @@ export interface Transaction {
 	accountName: string;
 	labels: string;
 	notes: string;
+	categoryParent: string;
+	categoryType: string;
 }

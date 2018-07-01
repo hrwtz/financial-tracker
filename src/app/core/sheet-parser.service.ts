@@ -1,11 +1,17 @@
 import { Injectable } from '@angular/core';
 
-import { Transaction } from './transaction';
-import { Category, Categories } from './category';
-import { ManualData } from './manual-data';
+import { CategoryHashService } from '../core/category-hash.service';
+
+import { Transaction } from './models/transaction.model';
+import { Category, Categories } from './models/category.model';
+import { ManualData } from './models/manual-data.model';
 
 @Injectable()
 export class SheetParserService {
+	constructor(
+		private categoryHashService: CategoryHashService
+	) {}
+
 	/*
 	 * Parses the transactions sheet
 	 *
@@ -27,6 +33,8 @@ export class SheetParserService {
 				transaction.amount *= -1;
 			}
 			transaction.date = new Date(transaction.date);
+			transaction.categoryType = this.categoryHashService.getHash('type')[transaction.category];
+			transaction.categoryParent = this.categoryHashService.getHash('parent')[transaction.category];
 			transactions.push(transaction);
 		}
 

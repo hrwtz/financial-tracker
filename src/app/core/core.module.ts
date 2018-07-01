@@ -4,6 +4,8 @@ import { HttpClientModule } from '@angular/common/http';
 
 import { throwIfAlreadyLoaded } from './module-import-guard';
 import { MenuModule } from './menu/menu.module';
+import { CategoryHashService } from './category-hash.service';
+import { CustomValidatorsService } from './custom-validators.service';
 import { LocalStorageService } from './local-storage.service';
 import { SheetFetcherService } from './sheet-fetcher.service';
 import { SheetParserService } from './sheet-parser.service';
@@ -17,6 +19,8 @@ import { SheetParserService } from './sheet-parser.service';
 		MenuModule
 	],
 	providers: [
+		CategoryHashService,
+		CustomValidatorsService,
 		LocalStorageService,
 		SheetFetcherService,
 		SheetParserService

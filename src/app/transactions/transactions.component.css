@@ -5,3 +5,7 @@
 .transactions__table {
 	width: 100%;
 }
+
+.transactions__title {
+	display: flex;
+}

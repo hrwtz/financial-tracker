@@ -1,0 +1,27 @@
+.transactions-filter {
+
+}
+
+.transactions-filter__split-group {
+	display: flex;
+	margin: 0 -10px;
+}
+
+.transactions-filter__split-field {
+	margin-left: 10px;
+	margin-right: 10px;
+	flex-basis: 50%;
+}
+
+.transactions-filter__full-field {
+	width: 100%;
+}
+
+.transactions-filter__dialog_actions {
+	float: right
+}
+
+.transactions-filter__child-option {
+	padding-left: 40px;
+	color: rgba(0,0,0,.5)
+}

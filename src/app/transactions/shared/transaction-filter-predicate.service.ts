@@ -18,7 +18,7 @@ export class TransactionFilterPredicateService {
 	 * check based on the standard filters.
 	 */
 	getFilterPredicate(): (data: Transaction, filtersJson: string) => boolean {
-		return function(data: Transaction, filtersJson: string): boolean {
+		return (data: Transaction, filtersJson: string): boolean => {
 			const filters: Filter[] = JSON.parse(filtersJson);
 			let matches = true;
 
@@ -40,7 +40,7 @@ export class TransactionFilterPredicateService {
 			});
 
 			return matches;
-		}.bind(this);
+		};
 	}
 
 	private customFilters: FilterFn[] = [

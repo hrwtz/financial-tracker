@@ -24,6 +24,7 @@ export class TransactionsFilterComponent implements OnInit {
 	values: FilterValues;
 	objectKeys = Object.keys;
 	form: FormGroup;
+	today: Date;
 	compareControlsStateMatcher = new CompareControlsStateMatcher();
 
 	constructor(
@@ -39,6 +40,7 @@ export class TransactionsFilterComponent implements OnInit {
 		this.categories = this.localStorageService.get('categories');
 		this.categoryTypes = this.getCategoryTypes();
 		this.values = this.transactionFilterValuesService.getValuesFromFilters(this.data.filters);
+		this.today = startOfToday();
 		this.form = this.getForm();
 
 		/*
@@ -60,15 +62,13 @@ export class TransactionsFilterComponent implements OnInit {
 	}
 
 	private getForm(): FormGroup {
-		const today = startOfToday();
-
 		return this.formBuilder.group({
 			dateGroup: this.formBuilder.group({
 				dateGte: this.formBuilder.control('', [
-					this.customValidatorsService.maxDate(today)
+					this.customValidatorsService.maxDate(this.today)
 				]),
 				dateLte: this.formBuilder.control('', [
-					this.customValidatorsService.maxDate(today)
+					this.customValidatorsService.maxDate(this.today)
 				])
 			}, {
 				validator: this.customValidatorsService.compareControls('dateLte', 'dateGte', '<')

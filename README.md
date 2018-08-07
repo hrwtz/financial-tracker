@@ -1,6 +1,6 @@
 # Financial Tracker
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 6.0.1.
+Use this project to see your financial status. It reads a list of transactions exported from Mint using Google Sheets as a DB and lets you view your transactions, history, and charts. This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 6.0.1.
 
 ## Development server
 
